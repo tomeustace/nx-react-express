@@ -3,7 +3,7 @@
   "steps": {
     "build": {
       "commands": [
-        "pwd && ls -la && cd /app && pwd && ls -la package.json && npm ci && ls -la node_modules/.bin/ | head -20 && /app/node_modules/.bin/nx build api --configuration=production && mkdir -p apps/api/dist-deploy && cp -r apps/api/dist/* apps/api/dist-deploy/ && cd apps/api && rm -rf dist && mv dist-deploy dist && ls -la dist/"
+        "pwd && pwd && ls -la && cd /app && pwd && ls -la package.json && npm ci && ls -la node_modules/.bin/ | head -20 && /app/node_modules/.bin/nx build api --configuration=production && mkdir -p apps/api/dist-deploy && cp -r apps/api/dist/* apps/api/dist-deploy/ && cd apps/api && rm -rf dist && mv dist-deploy dist && ls -la dist/"
       ]
     }
   },
