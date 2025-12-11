@@ -3,14 +3,13 @@
   "steps": {
     "install": {
       "commands": [
-        "ROOT=$(cd . && while [ ! -f package-lock.json ] && [ \"$PWD\" != \"/\" ]; do cd ..; done && pwd) && test -f \"$ROOT/package-lock.json\" && cd \"$ROOT\" && npm ci"
+        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npm ci'"
       ]
     },
     "build": {
       "inputs": [{ "step": "install" }],
       "commands": [
-        "ROOT=$(cd . && while [ ! -f package-lock.json ] && [ \"$PWD\" != \"/\" ]; do cd ..; done && pwd)",
-        "cd \"$ROOT\" && npx nx build shop --configuration=production"
+        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npx nx build shop --configuration=production'"
       ]
     }
   },
