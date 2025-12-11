@@ -3,7 +3,10 @@
   "steps": {
     "build": {
       "commands": [
-        "cd /app && npm ci && ./node_modules/.bin/nx build api --configuration=production && ls -la /app/apps/api/dist/"
+        "pwd",
+        "ls -la /app/ | head -30",
+        "ls -la /app/apps 2>/dev/null || echo 'No /app/apps'",
+        "cat /app/package.json | head -20"
       ]
     }
   },
