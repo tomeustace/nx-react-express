@@ -2,6 +2,10 @@
   "name": "@org/api",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "railway:build": "cd ../.. && npm ci && npx nx build api --configuration=production",
+    "railway:start": "node dist/main.js"
+  },
   "nx": {
     "targets": {
       "build": {

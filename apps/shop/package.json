@@ -2,6 +2,9 @@
   "name": "@org/shop",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "railway:build": "cd ../.. && npm ci && npx nx build shop --configuration=production"
+  },
   "nx": {
     "projectType": "application",
     "tags": ["scope:shop"],
