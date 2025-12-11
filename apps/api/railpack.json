@@ -4,7 +4,7 @@
     "build": {
       "commands": [
         "cd /app && npm ci",
-        "cd /app && npx nx build api --configuration=production",
+        "cd /app && ./node_modules/.bin/nx build api --configuration=production",
         "mkdir -p /app/apps/api/dist-deploy",
         "cp -r /app/apps/api/dist/* /app/apps/api/dist-deploy/",
         "cd /app/apps/api && rm -rf dist && mv dist-deploy dist",
