@@ -10,7 +10,8 @@
     "build": {
       "inputs": [{ "step": "install" }],
       "commands": [
-        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npx nx build api --configuration=production'"
+        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npx nx build api --configuration=production'",
+        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ -d \"$ROOT/apps/api/dist\" ]; then cp -r \"$ROOT/apps/api/dist\" \"$(pwd)/dist\"; fi'"
       ]
     }
   },
