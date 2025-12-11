@@ -1,9 +1,9 @@
 {
   "$schema": "https://schema.railpack.com",
   "build": {
-    "command": "cd ../.. && npm ci && npx nx build api --configuration=production"
+    "command": "cd ../.. && npm ci && npx nx build api --configuration=production && cd apps/api && ls -la"
   },
   "deploy": {
-    "startCommand": "node apps/api/dist/main.js"
+    "startCommand": "node dist/main.js"
   }
 }
