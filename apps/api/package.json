@@ -2,6 +2,9 @@
   "name": "@org/api",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "railway:build": "cd ../.. && npm ci && npx nx build api --configuration=production",
     "railway:start": "node dist/main.js"
