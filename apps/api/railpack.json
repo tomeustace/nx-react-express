@@ -3,12 +3,12 @@
   "steps": {
     "build": {
       "commands": [
-        "npm ci",
-        "npx nx build api --configuration=production",
-        "mkdir -p apps/api/dist-deploy",
-        "cp -r apps/api/dist/* apps/api/dist-deploy/",
-        "cd apps/api && rm -rf dist && mv dist-deploy dist",
-        "ls -la apps/api/dist/"
+        "cd /app && npm ci",
+        "cd /app && npx nx build api --configuration=production",
+        "mkdir -p /app/apps/api/dist-deploy",
+        "cp -r /app/apps/api/dist/* /app/apps/api/dist-deploy/",
+        "cd /app/apps/api && rm -rf dist && mv dist-deploy dist",
+        "ls -la /app/apps/api/dist/"
       ]
     }
   },
@@ -16,9 +16,9 @@
     "inputs": [
       {
         "step": "build",
-        "include": ["apps/api/dist"]
+        "include": ["dist"]
       }
     ],
-    "startCommand": "node apps/api/dist/main.js"
+    "startCommand": "node dist/main.js"
   }
 }
