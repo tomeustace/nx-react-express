@@ -6,7 +6,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "railway:build": "npm ci && npx nx build api --configuration=production",
+    "railway:build": "cd ../.. && (rm -rf node_modules/.cache 2>/dev/null || true) && npm ci && npx nx build api --configuration=production",
     "railway:start": "node dist/main.js"
   },
   "nx": {

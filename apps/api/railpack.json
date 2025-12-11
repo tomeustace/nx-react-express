@@ -1,8 +1,17 @@
 {
   "$schema": "https://schema.railpack.com",
   "steps": {
+    "install": {
+      "commands": [
+        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && (rm -rf node_modules/.cache 2>/dev/null || true) && npm ci'",
+        "mkdir -p node_modules"
+      ]
+    },
     "build": {
-      "commands": ["npm run railway:build"]
+      "inputs": [{ "step": "install" }],
+      "commands": [
+        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npx nx build api --configuration=production'"
+      ]
     }
   },
   "deploy": {
