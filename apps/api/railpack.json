@@ -3,10 +3,7 @@
   "steps": {
     "build": {
       "commands": [
-        "pwd",
-        "ls -la /app/ | head -30",
-        "ls -la /app/apps 2>/dev/null || echo 'No /app/apps'",
-        "cat /app/package.json | head -20"
+        "npm run railway:build"
       ]
     }
   },
@@ -14,9 +11,9 @@
     "inputs": [
       {
         "step": "build",
-        "include": ["/app/apps/api/dist"]
+        "include": ["dist"]
       }
     ],
-    "startCommand": "cd /app/apps/api && node dist/main.js"
+    "startCommand": "npm run railway:start"
   }
 }
