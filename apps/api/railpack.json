@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.railpack.com",
   "build": {
-    "command": "cd ../.. && npm ci && npx nx build api --configuration=production && cd apps/api && ls -la"
+    "command": "cd ../.. && npm ci && npx nx build api --configuration=production && cp -r apps/api/dist apps/api/dist-copy && cd apps/api && rm -rf dist && mv dist-copy dist && ls -la dist"
   },
   "deploy": {
     "startCommand": "node dist/main.js"
