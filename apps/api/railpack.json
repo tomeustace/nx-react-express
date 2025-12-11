@@ -3,12 +3,7 @@
   "steps": {
     "build": {
       "commands": [
-        "cd /app && npm ci",
-        "cd /app && ./node_modules/.bin/nx build api --configuration=production",
-        "mkdir -p /app/apps/api/dist-deploy",
-        "cp -r /app/apps/api/dist/* /app/apps/api/dist-deploy/",
-        "cd /app/apps/api && rm -rf dist && mv dist-deploy dist",
-        "ls -la /app/apps/api/dist/"
+        "cd /app && npm ci && ./node_modules/.bin/nx build api --configuration=production && mkdir -p apps/api/dist-deploy && cp -r apps/api/dist/* apps/api/dist-deploy/ && cd apps/api && rm -rf dist && mv dist-deploy dist && ls -la dist/"
       ]
     }
   },
