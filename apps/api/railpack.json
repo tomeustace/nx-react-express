@@ -19,7 +19,7 @@
     "inputs": [
       {
         "step": "build",
-        "include": ["dist", "package.json"]
+        "include": ["dist"]
       }
     ],
     "startCommand": "node dist/main.js"
