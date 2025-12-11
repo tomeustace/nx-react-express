@@ -126,8 +126,7 @@
     ]
   },
   "dependencies": {
-    "express": "^4.21.2",
-    "@org/api-products": "*",
-    "@org/models": "*"
-  }
+    "express": "^4.21.2"
+  },
+  "_comment": "Workspace dependencies (@org/api-products, @org/models) are bundled by esbuild and not needed at runtime. They are tracked by Nx via workspace configuration."
 }

@@ -6,28 +6,47 @@ This guide explains how to deploy both the frontend and backend services to Rail
 
 When Railway sets the root directory to `apps/api` or `apps/shop`, running `npm install` in those directories fails because workspace packages like `@org/api-products` and `@org/models` are not found in the npm registry - they're local workspace packages defined in the repository root.
 
+## Solution Applied
+
+**For the backend (`apps/api`):**
+
+- Removed workspace dependencies from `apps/api/package.json` since esbuild bundles everything (`bundle: true`), so they're not needed at runtime
+- Created `railpack.json` to configure Railway to install from repository root and build with Nx
+- Nx still tracks dependencies via workspace configuration
+
+**For the frontend (`apps/shop`):**
+
+- Workspace dependencies are in `devDependencies`, which Railway won't install in production mode
+- Created `railpack.json` to configure Railway to install from repository root and build with Nx
+
 ## Solution
 
 The issue is that Railway automatically runs `npm install` in the root directory (`apps/api` or `apps/shop`), which fails because workspace packages aren't in the npm registry.
 
-**Option 1: Use Custom Build Commands (Recommended)**
+**Railpack Configuration (Recommended)**
 
-Configure Railway to skip automatic npm install and use custom build commands that install from the repository root:
+Railpack configuration files (`railpack.json`) are automatically detected by Railway and will:
 
-1. In Railway project settings, disable "Auto-detected Build Command" or set it to empty
-2. Use the build commands below that navigate to root and install there
+- Install dependencies from the repository root (`cd ../.. && npm ci`)
+- Build using Nx from the repository root
+- Start the application using the configured start command
 
-**Option 2: Configure Install Command**
+The `railpack.json` files in `apps/api` and `apps/shop` handle this automatically.
 
-If Railway doesn't allow skipping install, you can try setting a custom install command:
+**Alternative: Manual Configuration**
+
+If you prefer to configure manually in Railway dashboard:
+
 - Install Command: `cd ../.. && npm ci` (for both services)
-- Then use the build commands below
+- Build Command: `cd ../.. && npx nx build api --configuration=production` (or `shop` for frontend)
+- Start Command: `node dist/main.js` (backend) or `npx serve -s dist -l $PORT` (frontend)
 
 ## Backend Service Configuration
 
 **Root Directory:** `apps/api`
 
 **If Railway allows custom install command:**
+
 - Install Command: `cd ../.. && npm ci`
 - Build Command: `cd ../.. && npx nx build api --configuration=production`
 - Start Command: `node dist/main.js`
@@ -36,6 +55,7 @@ If Railway doesn't allow skipping install, you can try setting a custom install 
 You have two options:
 
 1. **Skip install, use build command only:**
+
    - Disable automatic install in Railway settings
    - Build Command: `cd ../.. && npm ci && npx nx build api --configuration=production`
    - Start Command: `node dist/main.js`
@@ -49,6 +69,7 @@ You have two options:
 **Root Directory:** `apps/shop`
 
 **Build Command:**
+
 ```bash
 cd ../.. && npm ci && npx nx build shop --configuration=production
 ```
@@ -57,9 +78,11 @@ cd ../.. && npm ci && npx nx build shop --configuration=production
 For a static React app, you'll need a static file server. Options:
 
 1. **Using serve (recommended):**
+
    ```bash
    npx serve -s dist -l $PORT
    ```
+
    Add `serve` to `apps/shop/package.json` dependencies or install it globally.
 
 2. **Using Railway's static site feature:**
@@ -67,15 +90,18 @@ For a static React app, you'll need a static file server. Options:
    - Railway will automatically serve static files
 
 **Alternative (using npm script):**
+
 - Build Command: `npm run railway:build`
 
 ## Environment Variables
 
 ### Backend (`apps/api`)
+
 - `PORT` - Port to run the API server (default: 3333)
 - `HOST` - Host to bind to (default: localhost, use `0.0.0.0` for Railway)
 
 ### Frontend (`apps/shop`)
+
 - `PORT` - Port for the static server (if using serve)
 - `VITE_API_URL` - API endpoint URL (if your frontend needs to know the API URL)
 
@@ -92,10 +118,11 @@ For a static React app, you'll need a static file server. Options:
 If you still get 404 errors for workspace packages:
 
 1. **Railway runs npm install automatically:** Railway may try to run `npm install` in `apps/api` before your build command. To fix:
+
    - Go to Railway project settings → Service → Settings
    - Look for "Build Command" or "Install Command" settings
    - Either disable automatic install, or set install command to: `cd ../.. && npm ci`
-   - Or use Railway's "Nixpacks" buildpack settings to customize the install step
+   - Or use Railway's Railpack configuration (`railpack.json`) to customize the install step
 
 2. **Verify root directory:** Make sure Railway's root directory is set correctly (`apps/api` or `apps/shop`)
 
@@ -112,14 +139,15 @@ If you still get 404 errors for workspace packages:
 If you prefer, you can set both Railway services to use the repository root (`/`) as the root directory:
 
 **Backend:**
+
 - Root Directory: `/`
 - Build Command: `npm ci && npx nx build api --configuration=production`
 - Start Command: `node apps/api/dist/main.js`
 
 **Frontend:**
+
 - Root Directory: `/`
 - Build Command: `npm ci && npx nx build shop --configuration=production`
 - Start Command: `npx serve -s apps/shop/dist -l $PORT`
 
 This approach is simpler but requires changing your Railway configuration.
-
