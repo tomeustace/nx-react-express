@@ -4,6 +4,6 @@
     "command": "cd ../.. && npm ci && npx nx build api --configuration=production"
   },
   "deploy": {
-    "startCommand": "node dist/main.js"
+    "startCommand": "node apps/api/dist/main.js"
   }
 }
