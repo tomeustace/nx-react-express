@@ -3,7 +3,9 @@
   "steps": {
     "build": {
       "commands": [
-        "pwd && ls -la ../.. && cd ../.. && pwd && ls -la && npm ci && ./node_modules/.bin/nx build api --configuration=production && cd apps/api && ls -la dist/"
+        "find /app -name package-lock.json 2>/dev/null || echo 'Not in /app'",
+        "find / -maxdepth 3 -name package-lock.json 2>/dev/null | head -5",
+        "ls -la /workspace 2>/dev/null || echo 'No /workspace'"
       ]
     }
   },
