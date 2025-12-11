@@ -2,9 +2,7 @@
   "$schema": "https://schema.railpack.com",
   "steps": {
     "build": {
-      "commands": [
-        "npm run railway:build"
-      ]
+      "commands": ["npm run railway:build"]
     }
   },
   "deploy": {
