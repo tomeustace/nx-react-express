@@ -2,15 +2,21 @@
   "$schema": "https://schema.railpack.com",
   "steps": {
     "install": {
-      "commands": ["cd ../.. && npm ci"]
+      "commands": [
+        "ROOT=$(cd . && while [ ! -f package-lock.json ] && [ \"$PWD\" != \"/\" ]; do cd ..; done && pwd)",
+        "if [ ! -f \"$ROOT/package-lock.json\" ]; then echo 'Error: package-lock.json not found' && exit 1; fi",
+        "cd \"$ROOT\" && npm ci"
+      ]
     },
     "build": {
       "inputs": [{ "step": "install" }],
-      "commands": ["cd ../.. && npx nx build api --configuration=production"]
+      "commands": [
+        "ROOT=$(cd . && while [ ! -f package-lock.json ] && [ \"$PWD\" != \"/\" ]; do cd ..; done && pwd)",
+        "cd \"$ROOT\" && npx nx build api --configuration=production"
+      ]
     }
   },
   "deploy": {
     "startCommand": "node dist/main.js"
   }
 }
-

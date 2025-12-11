@@ -115,6 +115,23 @@ For a static React app, you'll need a static file server. Options:
 
 ## Troubleshooting
 
+### Error: "npm ci can only install with an existing package-lock.json"
+
+This error occurs when Railway tries to run `npm ci` automatically in `apps/api` or `apps/shop` before the railpack.json steps execute. These directories don't have `package-lock.json` files (they're in the repository root).
+
+**Solution:**
+
+1. **Disable Railway's automatic install (Recommended):**
+
+   - Go to Railway project settings → Service → Settings
+   - Look for "Install Command" or "Auto-install" settings
+   - Disable automatic install, or set it to: `echo "Skipping auto-install, using railpack.json"`
+   - The `railpack.json` install step will handle dependency installation from the repository root
+
+2. **Alternative: Configure Railway to use repository root:**
+   - Change Railway root directory to `/` (repository root) instead of `apps/api` or `apps/shop`
+   - Update build/start commands as shown in the "Alternative: Use Repository Root" section below
+
 If you still get 404 errors for workspace packages:
 
 1. **Railway runs npm install automatically:** Railway may try to run `npm install` in `apps/api` before your build command. To fix:
