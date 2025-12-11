@@ -11,7 +11,7 @@
       "inputs": [{ "step": "install" }],
       "commands": [
         "bash -c 'CURRENT=$(pwd); ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npx nx build api --configuration=production && cd \"$CURRENT\" && if [ -d \"$ROOT/apps/api/dist\" ]; then rm -rf dist 2>/dev/null || true; cp -r \"$ROOT/apps/api/dist\" . && ls -la dist/ || (echo \"Failed to copy dist\"; exit 1); else echo \"ERROR: dist not found at $ROOT/apps/api/dist\"; ls -la \"$ROOT/apps/api/\" || true; exit 1; fi'",
-        "bash -c 'if [ ! -f package.json ]; then ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; cp \"$ROOT/apps/api/package.json\" . || echo \"package.json already exists\"; fi'"
+        "if [ ! -f package.json ]; then ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; cp \"$ROOT/apps/api/package.json\" . || echo \"package.json already exists\"; fi"
       ]
     }
   },
