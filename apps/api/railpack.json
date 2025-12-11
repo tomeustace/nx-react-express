@@ -10,18 +10,13 @@
     "build": {
       "inputs": [{ "step": "install" }],
       "commands": [
-        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npx nx build api --configuration=production'",
-        "bash -c 'ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ -d \"$ROOT/apps/api/dist\" ]; then rm -rf dist && cp -r \"$ROOT/apps/api/dist\" .; fi'"
+        "mkdir -p dist",
+        "bash -c 'CURRENT=$(pwd); ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ ! -f \"$ROOT/package-lock.json\" ]; then exit 1; fi; cd \"$ROOT\" && npx nx build api --configuration=production'",
+        "bash -c 'CURRENT=$(pwd); ROOT=$(pwd); while [ ! -f \"$ROOT/package-lock.json\" ] && [ \"$ROOT\" != \"/\" ]; do ROOT=$(dirname \"$ROOT\"); done; if [ -d \"$ROOT/apps/api/dist\" ]; then rm -rf dist 2>/dev/null; cp -r \"$ROOT/apps/api/dist\" . || exit 1; else echo \"ERROR: dist not found at $ROOT/apps/api/dist\"; exit 1; fi'"
       ]
     }
   },
   "deploy": {
-    "inputs": [
-      {
-        "step": "build",
-        "include": ["dist"]
-      }
-    ],
     "startCommand": "node dist/main.js"
   }
 }
